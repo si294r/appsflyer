@@ -1,6 +1,6 @@
 <?php
 
-var_dump($argv);
+//var_dump($argv);
 
 include "/var/www/redshift-config.php";
 
