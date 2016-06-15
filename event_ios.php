@@ -5,7 +5,7 @@
 include "/var/www/redshift-config.php";
 
 if (isset($argv[1])) {
-    $data = $argv[1];
+    $date = $argv[1];
 } else {
     $date = date('Y-m-d', strtotime("-1 days"));
 }
