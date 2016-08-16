@@ -2,6 +2,8 @@
 
 //var_dump($argv);
 
+sleep(60);
+
 include "/var/www/redshift-config2.php";
 
 if (isset($argv[1])) {
