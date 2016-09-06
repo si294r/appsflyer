@@ -5,6 +5,7 @@
 sleep(60);
 
 include "/var/www/redshift-config2.php";
+include "/var/www/appsflyer_billionaire_ios_key.php";
 
 if (isset($argv[1])) {
     $date = $argv[1];
@@ -13,7 +14,7 @@ if (isset($argv[1])) {
 }
 echo $date;
 
-$url = "https://hq.appsflyer.com/export/id881342787/installs_report/v4?api_token=9b243088-f629-40e3-9f26-3c35f30e13b6&from=$date&to=$date";
+$url = "https://hq.appsflyer.com/export/id881342787/installs_report/v4?api_token=$api_token&from=$date&to=$date";
 
 $dir = "/var/www/html/appsflyer";
 $filename = "event_ios2_$date.csv";
