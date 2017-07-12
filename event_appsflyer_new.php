@@ -10,8 +10,8 @@ include "/var/www/appsflyer_api_key.php";
 include 'config.php';
 load_config();
 
-if (isset($argv[1])) {
-    $date = $argv[1];
+if (isset($argv[2])) {
+    $date = $argv[2];
 } else {
     $date = date('Y-m-d', strtotime("-1 days"));
 }
