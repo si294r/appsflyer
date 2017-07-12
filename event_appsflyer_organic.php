@@ -13,7 +13,7 @@ echo $tanggal;
 $dir = "/var/www/html/appsflyer/$folder";
 
 for ($i=0; $i<=23; $i++) {
-    $filename = $tanggal. str_pad($i, 2, "0", STR_PAD_LEFT) .".{$csv_suffix}.txt";
+    $filename = $tanggal. str_pad($i, 2, "0", STR_PAD_LEFT) .".{$txt_suffix}.txt";
     $cmd_s3 = "s3cmd put {$GLOBALS['dir']}/$filename s3://apps-flyer/$folder_s3/$filename";
     exec($cmd_s3);
 //    echo $cmd_s3;
