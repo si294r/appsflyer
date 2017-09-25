@@ -20,3 +20,8 @@ $config['ipq_reborn_oid']['folder'] = 'ipq_reborn';
 $config['ipq_reborn_oid']['txt_suffix'] = 'oid_in_app_event_organic';
 $config['ipq_reborn_oid']['folder_s3'] = 'ipq_reborn_oid_organic';
 $config['ipq_reborn_oid']['tablename'] = 'appsflyer_ipq_reborn_oid_in_app_event_organic';
+
+$config['cash_ios']['folder'] = 'cash';
+$config['cash_ios']['txt_suffix'] = 'ios_in_app_event_organic';
+$config['cash_ios']['folder_s3'] = 'cash_ios_organic';
+$config['cash_ios']['tablename'] = 'appsflyer_cash_ios_in_app_event_organic';
