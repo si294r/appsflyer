@@ -24,3 +24,10 @@ $config['ipq_reborn_oid']['folder_s3'] = 'ipq_reborn_oid';
 $config['ipq_reborn_oid']['tablename'] = 'appsflyer_ipq_reborn_oid_in_app_event_non_organic';
 $config['ipq_reborn_oid']['csv_prefix'] = 'event_ipq_reborn_oid_';
 $config['ipq_reborn_oid']['api_version'] = 'v5';
+
+
+$config['cash_ios']['app_id'] = 'id1270598321';
+$config['cash_ios']['folder_s3'] = 'cash_ios';
+$config['cash_ios']['tablename'] = 'appsflyer_cash_ios_in_app_event_non_organic';
+$config['cash_ios']['csv_prefix'] = 'event_cash_ios_';
+$config['cash_ios']['api_version'] = 'v5';
