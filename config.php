@@ -31,3 +31,10 @@ $config['cash_ios']['folder_s3'] = 'cash_ios';
 $config['cash_ios']['tablename'] = 'appsflyer_cash_ios_in_app_event_non_organic';
 $config['cash_ios']['csv_prefix'] = 'event_cash_ios_';
 $config['cash_ios']['api_version'] = 'v5';
+
+
+$config['billionaire2_ios']['app_id'] = 'id1255102262';
+$config['billionaire2_ios']['folder_s3'] = 'billionaire2_ios';
+$config['billionaire2_ios']['tablename'] = 'appsflyer_billionaire2_ios_in_app_event_non_organic';
+$config['billionaire2_ios']['csv_prefix'] = 'event_billionaire2_ios_';
+$config['billionaire2_ios']['api_version'] = 'v5';
