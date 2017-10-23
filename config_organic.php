@@ -25,3 +25,8 @@ $config['cash_ios']['folder'] = 'cash';
 $config['cash_ios']['txt_suffix'] = 'ios_in_app_event_organic';
 $config['cash_ios']['folder_s3'] = 'cash_ios_organic';
 $config['cash_ios']['tablename'] = 'appsflyer_cash_ios_in_app_event_organic';
+
+$config['billionaire2_ios']['folder'] = 'billionaire2';
+$config['billionaire2_ios']['txt_suffix'] = 'ios_in_app_event_organic';
+$config['billionaire2_ios']['folder_s3'] = 'billionaire2_ios_organic';
+$config['billionaire2_ios']['tablename'] = 'appsflyer_billionaire2_ios_in_app_event_organic';
