@@ -35,3 +35,8 @@ $config['cash_oid']['folder'] = 'cash';
 $config['cash_oid']['txt_suffix'] = 'oid_in_app_event_organic';
 $config['cash_oid']['folder_s3'] = 'cash_oid_organic';
 $config['cash_oid']['tablename'] = 'appsflyer_cash_oid_in_app_event_organic';
+
+$config['stb_ios']['folder'] = 'stb';
+$config['stb_ios']['txt_suffix'] = 'ios_in_app_event_organic';
+$config['stb_ios']['folder_s3'] = 'stb_ios_organic';
+$config['stb_ios']['tablename'] = 'appsflyer_stb_ios_in_app_event_organic';

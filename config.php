@@ -41,3 +41,9 @@ $config['cash_oid']['folder_s3'] = 'cash_oid';
 $config['cash_oid']['tablename'] = 'appsflyer_cash_oid_in_app_event_non_organic';
 $config['cash_oid']['csv_prefix'] = 'event_cash_oid_';
 $config['cash_oid']['api_version'] = 'v5';
+
+$config['stb_ios']['app_id'] = 'id898707431';
+$config['stb_ios']['folder_s3'] = 'stb_ios';
+$config['stb_ios']['tablename'] = 'appsflyer_stb_ios_in_app_event_non_organic';
+$config['stb_ios']['csv_prefix'] = 'event_stb_ios_';
+$config['stb_ios']['api_version'] = 'v5';
