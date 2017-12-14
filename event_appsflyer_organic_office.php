@@ -33,7 +33,11 @@ while (true) {
     exec("aws s3 ls s3://apps-flyer/$folder_s3/$tanggal", $ls_output);
 
     if (count($ls_output) > 0) {
-        echo "found".PHP_EOL;        
+        echo "found..";        
+        echo "cleanup ".$tanggal.PHP_EOL;
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"DELETE FROM {$table_name} WHERE import_date = '{$tanggal}' ;\"";
+        exec($pcmd, $output);
+        
         foreach ($ls_output as $row) {
 
             $re = '/' . $tanggal . '.*/';
@@ -51,7 +55,7 @@ while (true) {
             $output = array();
 
             echo "truncate...";
-            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"DELETE FROM {$table_name} WHERE import_date = '{$tanggal}' ; TRUNCATE TABLE {$table_name}_temp ;\"";
+            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ;\"";
             exec($pcmd, $output);
 
             echo "copy...";
