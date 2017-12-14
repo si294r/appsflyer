@@ -23,6 +23,7 @@ if (isset($argv[2])) {
 }
 
 $obj_date = DateTime::createFromFormat('Ymd', $startdate);
+$table_name = $tablename;
 
 while (true) {
 
@@ -51,7 +52,6 @@ while (true) {
             echo $filename." download...";
             exec("aws s3 cp s3://apps-flyer/$folder_s3/$filename $current_dir/$filename");
 
-            $table_name = $tablename;
             $output = array();
 
             echo "truncate...";
