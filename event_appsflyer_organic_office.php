@@ -34,11 +34,17 @@ while (true) {
     exec("aws s3 ls s3://apps-flyer/$folder_s3/$tanggal", $ls_output);
 
     if (count($ls_output) > 0) {
-        echo "found..";        
-        echo "cleanup ".$tanggal.PHP_EOL;
+        echo "found..";
+        echo "cleanup " . $tanggal . PHP_EOL;
+
+        $output = array();
         $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"DELETE FROM {$table_name} WHERE import_date = '{$tanggal}' ;\"";
         exec($pcmd, $output);
-        
+        echo "truncate..." . PHP_EOL;
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ; TRUNCATE TABLE temp_json;\"";
+        exec($pcmd, $output);
+        echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
+
         foreach ($ls_output as $row) {
 
             $re = '/' . $tanggal . '.*/';
@@ -49,20 +55,22 @@ while (true) {
                 continue;
             $filename = $matches[0][0];
 
-            echo $filename." download...";
+            echo $filename . " download...";
             exec("aws s3 cp s3://apps-flyer/$folder_s3/$filename $current_dir/$filename");
 
             $output = array();
-
-            echo "truncate...";
-            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ; TRUNCATE TABLE temp_json;\"";
-            exec($pcmd, $output);
-
             echo "copy...";
             $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"\\COPY temp_json FROM '$current_dir/$filename'; \"";
             exec($pcmd, $output);
-            echo "insert...";
-            exec("psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"
+            echo "done" . PHP_EOL;
+            echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
+
+            unlink("$current_dir/$filename"); // cleanup
+        }
+
+        $output = array();
+        echo "insert...";
+        exec("psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"
 insert into {$table_name}_temp
 select 
    values->>'fb_adgroup_id' as fb_adgroup_id,
@@ -126,17 +134,14 @@ from
 (
 select values::json from temp_json
 ) a;\"", $output);
-            echo "insert2...";
-            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"INSERT INTO {$table_name} (SELECT '{$tanggal}', * FROM {$table_name}_temp) ;\"";
-            exec($pcmd, $output);
+        echo "insert2...";
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"INSERT INTO {$table_name} (SELECT '{$tanggal}', * FROM {$table_name}_temp) ;\"";
+        exec($pcmd, $output);
 
-            echo "done" . PHP_EOL;
-            echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
-
-            unlink("$current_dir/$filename"); // cleanup
-        }
+        echo "done" . PHP_EOL;
+        echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
     } else {
-        echo "not found".PHP_EOL;
+        echo "not found" . PHP_EOL;
     }
 
     if ($obj_date->format('Ymd') == $enddate) {
