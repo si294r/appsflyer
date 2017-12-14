@@ -31,15 +31,16 @@ if (count($ls_output) > 0) {
     $output = array();
     exec($pcmd, $output);
 
-    echo "insert...".PHP_EOL;
+    echo "insert...";
     $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"\\COPY {$table_name} FROM '{$current_dir}/{$filename}' DELIMITER ',' NULL '' QUOTE '\\\"' CSV HEADER ;\"";
     exec($pcmd, $output);
     
-    echo implode("\n", $output) . "\n\n";
+    echo "done".PHP_EOL;
+    echo implode(PHP_EOL, $output).PHP_EOL.PHP_EOL;
 
     unlink("$current_dir/$filename");
     
 } else {
-    echo "not found.".PHP_EOL;
+    echo "not found.".PHP_EOL.PHP_EOL;
 }
 
