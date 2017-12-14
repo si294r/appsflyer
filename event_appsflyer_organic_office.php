@@ -132,7 +132,7 @@ select
    values->>'event_type' as event_type
 from   
 (
-select values::json from temp_json
+select values::json from temp_json where is_json(values)
 ) a;\"", $output);
         echo "insert2...";
         $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"INSERT INTO {$table_name} (SELECT '{$tanggal}', * FROM {$table_name}_temp) ;\"";
