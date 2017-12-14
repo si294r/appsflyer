@@ -55,7 +55,7 @@ while (true) {
             $output = array();
 
             echo "truncate...";
-            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ;\"";
+            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ; TRUNCATE TABLE temp_json;\"";
             exec($pcmd, $output);
 
             echo "copy...";
