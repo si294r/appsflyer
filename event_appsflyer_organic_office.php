@@ -24,6 +24,7 @@ if (isset($argv[2])) {
 
 $obj_date = DateTime::createFromFormat('Ymd', $startdate);
 $table_name = $tablename;
+$temp_json = "temp_json_".round(microtime(true) * 1000);
 
 while (true) {
 
@@ -41,7 +42,10 @@ while (true) {
         $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"DELETE FROM {$table_name} WHERE import_date = '{$tanggal}' ;\"";
         exec($pcmd, $output);
         echo "truncate..." . PHP_EOL;
-        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ; TRUNCATE TABLE temp_json;\"";
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"TRUNCATE TABLE {$table_name}_temp ;\"";
+        exec($pcmd, $output);
+        echo "create temp_json...".PHP_EOL;
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"CREATE TABLE {$temp_json} (values text);\"";
         exec($pcmd, $output);
         echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
 
@@ -60,7 +64,7 @@ while (true) {
 
             $output = array();
             echo "copy...";
-            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"\\COPY temp_json FROM '$current_dir/$filename'; \"";
+            $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"\\COPY $temp_json FROM '$current_dir/$filename'; \"";
             exec($pcmd, $output);
             echo "done" . PHP_EOL;
             echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
@@ -132,12 +136,17 @@ select
    values->>'event_type' as event_type
 from   
 (
-select values::json from temp_json where is_json(values)
+select values::json from $temp_json where is_json(values)
 ) a;\"", $output);
         echo "insert2...";
         $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"INSERT INTO {$table_name} (SELECT '{$tanggal}', * FROM {$table_name}_temp) ;\"";
         exec($pcmd, $output);
 
+        echo "drop temp_json...";
+        $pcmd = "psql --host=$rhost --port=$rport --username=$ruser --no-password --echo-all $rdatabase  -c \"DROP TABLE IF EXISTS $temp_json;\"";
+        exec($pcmd, $output);
+        
+        echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
         echo "done" . PHP_EOL;
         echo implode(PHP_EOL, $output) . PHP_EOL . PHP_EOL;
     } else {
